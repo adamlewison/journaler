@@ -15,9 +15,9 @@ import {
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
 export async function login(
-  _prev: { error: string } | null,
+  _prev: { error: string } | { success: true } | null,
   formData: FormData,
-): Promise<{ error: string } | null> {
+): Promise<{ error: string } | { success: true } | null> {
   const username = (formData.get("username") as string)?.trim().toLowerCase();
   const pin = formData.get("pin") as string;
 
@@ -62,7 +62,7 @@ export async function login(
     });
   }
 
-  redirect("/journal");
+  return { success: true };
 }
 
 export async function logout() {
@@ -130,6 +130,23 @@ export async function createEntry(
   redirect("/journal");
 }
 
+export async function createDraftEntry(
+  content: string,
+  journalId: number,
+): Promise<{ error: string } | { id: number }> {
+  const session = await requireSession();
+
+  if (!content?.trim()) return { error: "Entry cannot be empty." };
+
+  const result = await getDb().execute({
+    sql: "INSERT INTO entries (user_id, journal_id, content) VALUES (?, ?, ?)",
+    args: [session.userId, journalId, content.trim()],
+  });
+
+  revalidatePath("/journal");
+  return { id: Number(result.lastInsertRowid) };
+}
+
 export async function updateEntry(
   _prev: { error: string } | null,
   formData: FormData,
@@ -148,6 +165,24 @@ export async function updateEntry(
 
   revalidatePath("/journal");
   redirect("/journal");
+}
+
+export async function autoSaveEntry(
+  entryId: number,
+  content: string,
+  journalId: number,
+): Promise<{ error: string } | { ok: true }> {
+  const session = await requireSession();
+
+  if (!content?.trim()) return { error: "Entry cannot be empty." };
+
+  await getDb().execute({
+    sql: "UPDATE entries SET content = ?, journal_id = ? WHERE id = ? AND user_id = ?",
+    args: [content.trim(), journalId, entryId, session.userId],
+  });
+
+  revalidatePath("/journal");
+  return { ok: true };
 }
 
 export async function softDeleteEntry(entryId: number) {

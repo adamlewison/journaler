@@ -29,7 +29,6 @@ export async function createSession(payload: SessionPayload) {
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
-    maxAge: SESSION_DURATION_SECONDS,
     path: "/",
   });
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { login } from "@/lib/actions";
 import { BookOpen, ArrowLeft } from "lucide-react";
 
@@ -62,6 +63,7 @@ function PinInput({
 // ── Page ───────────────────────────────────────────────────────────────────────
 
 export default function LoginPage() {
+  const router = useRouter();
   const [step, setStep] = useState<1 | 2>(1);
   const [username, setUsername] = useState("");
   const [pin, setPin] = useState(["", "", "", "", "", ""]);
@@ -88,9 +90,17 @@ export default function LoginPage() {
     }
   }, [step]);
 
+  // Navigate to journal on success, setting the per-tab sessionStorage flag first
+  useEffect(() => {
+    if (loginState && "success" in loginState) {
+      sessionStorage.setItem("journaler_active", "1");
+      router.push("/journal");
+    }
+  }, [loginState, router]);
+
   // Reset PIN whenever login fails so the user starts fresh
   useEffect(() => {
-    if (loginState?.error) {
+    if (loginState && "error" in loginState) {
       setPin(["", "", "", "", "", ""]);
       setTimeout(() => pinRefs.current[0]?.focus(), 60);
     }

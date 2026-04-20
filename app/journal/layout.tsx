@@ -3,6 +3,7 @@ import { getJournals, getEntryCounts } from "@/lib/actions";
 import Sidebar from "@/components/Sidebar";
 import JournalShell from "@/components/JournalShell";
 import { SidebarProvider } from "@/components/SidebarContext";
+import SessionGuard from "@/components/SessionGuard";
 import { Suspense } from "react";
 
 export default async function JournalLayout({
@@ -18,6 +19,7 @@ export default async function JournalLayout({
 
   return (
     <SidebarProvider>
+      <SessionGuard />
       <JournalShell>
         <Suspense>
           <Sidebar journals={journals} counts={counts} />
