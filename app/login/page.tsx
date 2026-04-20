@@ -209,7 +209,7 @@ export default function LoginPage() {
               <PinInput pin={pin} setPin={setPin} inputRefs={pinRefs} />
             </div>
 
-            {loginState?.error && (
+            {loginState && "error" in loginState && (
               <p className="text-sm text-red-500">{loginState.error}</p>
             )}
 
