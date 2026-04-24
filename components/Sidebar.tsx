@@ -15,6 +15,7 @@ import {
   X,
   Moon,
   Sun,
+  UserCircle,
 } from "lucide-react";
 
 type Journal = { id: number; name: string; icon: string; color: string };
@@ -185,13 +186,23 @@ export default function Sidebar({
           </button>
         </form>
 
-        <button
-          onClick={toggle}
-          className="p-2 rounded-lg text-[#8e8e93] hover:bg-[#e8e8ed] dark:hover:bg-[#3a3a3c] transition-colors"
-          title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
-        >
-          {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
-        </button>
+        <div className="flex items-center gap-1">
+          <Link
+            href="/journal/profile"
+            onClick={close}
+            className="p-2 rounded-lg text-[#8e8e93] hover:bg-[#e8e8ed] dark:hover:bg-[#3a3a3c] transition-colors"
+            title="Profile & Settings"
+          >
+            <UserCircle className="w-4 h-4" />
+          </Link>
+          <button
+            onClick={toggle}
+            className="p-2 rounded-lg text-[#8e8e93] hover:bg-[#e8e8ed] dark:hover:bg-[#3a3a3c] transition-colors"
+            title={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          >
+            {theme === "dark" ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+          </button>
+        </div>
       </div>
     </aside>
   );

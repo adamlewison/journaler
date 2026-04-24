@@ -212,6 +212,85 @@ export async function permanentlyDeleteEntry(entryId: number) {
   revalidatePath("/journal");
 }
 
+export async function deleteAllTrashed() {
+  const session = await requireSession();
+  await getDb().execute({
+    sql: "DELETE FROM entries WHERE user_id = ? AND deleted_at IS NOT NULL",
+    args: [session.userId],
+  });
+  revalidatePath("/journal");
+}
+
+// ── Profile ───────────────────────────────────────────────────────────────────
+
+export async function updateUsername(
+  _prev: { error: string } | { success: true } | null,
+  formData: FormData,
+): Promise<{ error: string } | { success: true } | null> {
+  const session = await requireSession();
+  const newUsername = (formData.get("username") as string)?.trim().toLowerCase();
+
+  if (!newUsername || newUsername.length < 2) {
+    return { error: "Username must be at least 2 characters." };
+  }
+  if (!/^[a-z0-9_]+$/.test(newUsername)) {
+    return { error: "Only letters, numbers, and underscores are allowed." };
+  }
+
+  const existing = await getDb().execute({
+    sql: "SELECT id FROM users WHERE username = ? AND id != ?",
+    args: [newUsername, session.userId],
+  });
+  if (existing.rows.length > 0) {
+    return { error: "Username already taken." };
+  }
+
+  await getDb().execute({
+    sql: "UPDATE users SET username = ? WHERE id = ?",
+    args: [newUsername, session.userId],
+  });
+
+  await createSession({ userId: session.userId, username: newUsername });
+  return { success: true };
+}
+
+export async function updatePin(
+  _prev: { error: string } | { success: true } | null,
+  formData: FormData,
+): Promise<{ error: string } | { success: true } | null> {
+  const session = await requireSession();
+  const currentPin = formData.get("current_pin") as string;
+  const newPin = formData.get("new_pin") as string;
+
+  if (!currentPin || !/^\d{6}$/.test(currentPin)) {
+    return { error: "Current PIN must be 6 digits." };
+  }
+  if (!newPin || !/^\d{6}$/.test(newPin)) {
+    return { error: "New PIN must be 6 digits." };
+  }
+
+  const result = await getDb().execute({
+    sql: "SELECT pin_hash, pin_salt FROM users WHERE id = ?",
+    args: [session.userId],
+  });
+  const user = result.rows[0];
+  if (!user) return { error: "User not found." };
+
+  if (hashPin(currentPin, user.pin_salt as string) !== user.pin_hash) {
+    return { error: "Current PIN is incorrect." };
+  }
+
+  const newSalt = generateSalt();
+  const newHash = hashPin(newPin, newSalt);
+
+  await getDb().execute({
+    sql: "UPDATE users SET pin_hash = ?, pin_salt = ? WHERE id = ?",
+    args: [newHash, newSalt, session.userId],
+  });
+
+  return { success: true };
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 // libsql Row objects have methods and can't be passed to Client Components.

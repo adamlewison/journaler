@@ -3,13 +3,20 @@
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useSidebar } from "@/components/SidebarContext";
-import { Menu, Plus, Search } from "lucide-react";
+import { deleteAllTrashed } from "@/lib/actions";
+import { Menu, Plus, Search, Trash2 } from "lucide-react";
 
 export default function TopBar({ title }: { title: string }) {
   const { toggle } = useSidebar();
   const searchParams = useSearchParams();
   const journalParam = searchParams.get("journal") ?? "all";
   const q = searchParams.get("q") ?? "";
+  const isRecentlyDeleted = journalParam === "recently-deleted";
+
+  async function handleDeleteAll() {
+    if (!window.confirm("Permanently delete all items in Recently Deleted? This cannot be undone.")) return;
+    await deleteAllTrashed();
+  }
 
   return (
     <div className="flex items-center gap-2 px-3 py-3 border-b border-[#e5e5ea] dark:border-[#38383a] bg-[#f2f2f7] dark:bg-[#1c1c1e] shrink-0">
@@ -24,12 +31,22 @@ export default function TopBar({ title }: { title: string }) {
 
       <h1 className="text-lg font-bold text-[#1c1c1e] dark:text-[#f2f2f7] flex-1 truncate">{title}</h1>
 
-      <Link
-        href="/journal/new"
-        className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-700 dark:hover:bg-violet-400 transition-colors shrink-0"
-      >
-        <Plus className="w-4 h-4" />
-      </Link>
+      {isRecentlyDeleted ? (
+        <button
+          onClick={handleDeleteAll}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium text-red-500 hover:bg-red-50 dark:hover:bg-red-950/30 transition-colors shrink-0"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          Delete All
+        </button>
+      ) : (
+        <Link
+          href="/journal/new"
+          className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-700 dark:hover:bg-violet-400 transition-colors shrink-0"
+        >
+          <Plus className="w-4 h-4" />
+        </Link>
+      )}
 
       <form method="GET" action="/journal" className="relative shrink-0">
         <input type="hidden" name="journal" value={journalParam} />
