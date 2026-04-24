@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import ServiceWorkerRegistration from "@/components/ServiceWorkerRegistration";
+import ThemeProvider from "@/components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: "Journaler",
@@ -19,8 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="h-full">
       <body className="h-full">
-        {children}
-        <ServiceWorkerRegistration />
+        <ThemeProvider>
+          {children}
+          <ServiceWorkerRegistration />
+        </ThemeProvider>
       </body>
     </html>
   );

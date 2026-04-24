@@ -68,12 +68,12 @@ export default async function JournalPage({
 
       <div className="flex-1 overflow-y-auto px-3 sm:px-4 py-4 space-y-6">
         {Object.keys(grouped).length === 0 && (
-          <div className="flex flex-col items-center justify-center h-64 text-[#8e8e93]">
+          <div className="flex flex-col items-center justify-center h-64 text-[#8e8e93] dark:text-[#8e8e93]">
             <p className="text-lg font-medium">No entries</p>
             {!isDeleted && (
               <Link
                 href="/journal/new"
-                className="mt-3 text-sm text-violet-600 hover:underline"
+                className="mt-3 text-sm text-violet-600 dark:text-violet-400 hover:underline"
               >
                 Write your first entry →
               </Link>
@@ -83,7 +83,7 @@ export default async function JournalPage({
 
         {Object.entries(grouped).map(([dateLabel, dayEntries]) => (
           <section key={dateLabel}>
-            <h2 className="text-sm font-semibold text-[#1c1c1e] mb-2">{dateLabel}</h2>
+            <h2 className="text-sm font-semibold text-[#1c1c1e] dark:text-[#f2f2f7] mb-2">{dateLabel}</h2>
             <div className="space-y-3">
               {dayEntries.map((entry) => (
                 <EntryCard key={entry.id} entry={entry} isDeleted={isDeleted} />

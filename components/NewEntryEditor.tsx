@@ -51,14 +51,6 @@ export default function NewEntryEditor({ journals }: { journals: Journal[] }) {
     scheduleAutosave(latestContentRef.current, val);
   };
 
-  const handleDone = async () => {
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    if (latestContentRef.current.trim()) {
-      await save(latestContentRef.current, latestJournalIdRef.current);
-    }
-    router.push("/journal");
-  };
-
   useEffect(() => {
     return () => {
       if (debounceRef.current) clearTimeout(debounceRef.current);
@@ -75,18 +67,18 @@ export default function NewEntryEditor({ journals }: { journals: Journal[] }) {
           : null;
 
   return (
-    <div className="flex flex-col h-full bg-white">
+    <div className="flex flex-col h-full bg-white dark:bg-[#1c1c1e]">
       {/* Header */}
-      <div className="flex items-center gap-3 px-4 py-3 border-b border-[#e5e5ea] shrink-0">
+      <div className="flex items-center gap-3 px-4 py-3 border-b border-[#e5e5ea] dark:border-[#38383a] shrink-0">
         <button
           type="button"
           onClick={() => router.back()}
-          className="flex items-center gap-1 text-violet-600 text-sm hover:opacity-70 transition-opacity"
+          className="flex items-center gap-1 text-violet-600 dark:text-violet-400 text-sm hover:opacity-70 transition-opacity"
         >
           <ArrowLeft className="w-4 h-4" />
           <span className="hidden sm:inline">Back</span>
         </button>
-        <span className="flex-1 text-center font-semibold text-[#1c1c1e]">New Entry</span>
+        <span className="flex-1 text-center font-semibold text-[#1c1c1e] dark:text-[#f2f2f7]">New Entry</span>
         {statusLabel && (
           <span
             className={`text-xs ${saveStatus === "error" ? "text-red-500" : "text-[#8e8e93]"}`}
@@ -94,13 +86,6 @@ export default function NewEntryEditor({ journals }: { journals: Journal[] }) {
             {statusLabel}
           </span>
         )}
-        <button
-          type="button"
-          onClick={handleDone}
-          className="text-violet-600 text-sm font-semibold hover:opacity-70 transition-opacity"
-        >
-          Done
-        </button>
       </div>
 
       <div className="flex flex-col flex-1 min-h-0 p-4 gap-3">
@@ -109,7 +94,7 @@ export default function NewEntryEditor({ journals }: { journals: Journal[] }) {
           <select
             value={journalId}
             onChange={handleJournalChange}
-            className="text-sm text-[#1c1c1e] bg-[#f2f2f7] rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-violet-500"
+            className="text-sm text-[#1c1c1e] dark:text-[#f2f2f7] bg-[#f2f2f7] dark:bg-[#2c2c2e] rounded-xl px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400"
           >
             {journals.map((j) => (
               <option key={j.id} value={j.id}>
@@ -124,7 +109,7 @@ export default function NewEntryEditor({ journals }: { journals: Journal[] }) {
           value={content}
           onChange={handleContentChange}
           placeholder="Start writing…"
-          className="flex-1 min-h-0 resize-none text-[#1c1c1e] text-base placeholder:text-[#c7c7cc] focus:outline-none leading-relaxed"
+          className="flex-1 min-h-0 resize-none text-[#1c1c1e] dark:text-[#f2f2f7] bg-transparent text-base placeholder:text-[#c7c7cc] dark:placeholder:text-[#48484a] focus:outline-none leading-relaxed"
         />
       </div>
     </div>

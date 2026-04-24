@@ -6,7 +6,7 @@ export default function JournalShell({ children }: { children: React.ReactNode }
   const { open, close } = useSidebar();
 
   return (
-    <div className="flex h-full bg-[#f2f2f7] relative">
+    <div className="flex h-full bg-[#f2f2f7] dark:bg-[#1c1c1e] relative">
       {/* Mobile overlay */}
       {open && (
         <div

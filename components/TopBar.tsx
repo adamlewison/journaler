@@ -12,21 +12,21 @@ export default function TopBar({ title }: { title: string }) {
   const q = searchParams.get("q") ?? "";
 
   return (
-    <div className="flex items-center gap-2 px-3 py-3 border-b border-[#e5e5ea] bg-[#f2f2f7] shrink-0">
+    <div className="flex items-center gap-2 px-3 py-3 border-b border-[#e5e5ea] dark:border-[#38383a] bg-[#f2f2f7] dark:bg-[#1c1c1e] shrink-0">
       {/* Hamburger — mobile only */}
       <button
         onClick={toggle}
-        className="md:hidden p-1.5 rounded-lg text-[#8e8e93] hover:bg-[#e5e5ea] transition-colors"
+        className="md:hidden p-1.5 rounded-lg text-[#8e8e93] hover:bg-[#e5e5ea] dark:hover:bg-[#38383a] transition-colors"
         aria-label="Open menu"
       >
         <Menu className="w-5 h-5" />
       </button>
 
-      <h1 className="text-lg font-bold text-[#1c1c1e] flex-1 truncate">{title}</h1>
+      <h1 className="text-lg font-bold text-[#1c1c1e] dark:text-[#f2f2f7] flex-1 truncate">{title}</h1>
 
       <Link
         href="/journal/new"
-        className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 text-white hover:bg-violet-700 transition-colors shrink-0"
+        className="w-8 h-8 flex items-center justify-center rounded-full bg-violet-600 dark:bg-violet-500 text-white hover:bg-violet-700 dark:hover:bg-violet-400 transition-colors shrink-0"
       >
         <Plus className="w-4 h-4" />
       </Link>
@@ -38,7 +38,7 @@ export default function TopBar({ title }: { title: string }) {
           name="q"
           defaultValue={q}
           placeholder="Search"
-          className="pl-8 pr-3 py-1.5 rounded-full bg-[#e5e5ea] text-sm text-[#1c1c1e] placeholder:text-[#8e8e93] focus:outline-none focus:ring-2 focus:ring-violet-500 w-32 sm:w-40"
+          className="pl-8 pr-3 py-1.5 rounded-full bg-[#e5e5ea] dark:bg-[#38383a] text-sm text-[#1c1c1e] dark:text-[#f2f2f7] placeholder:text-[#8e8e93] focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 w-32 sm:w-40"
         />
       </form>
     </div>

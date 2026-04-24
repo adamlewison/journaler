@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 :root {
   --background: #f2f2f7;
@@ -8,6 +9,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }

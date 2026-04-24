@@ -53,7 +53,7 @@ function PinInput({
           value={digit}
           onChange={(e) => handleChange(i, e.target.value)}
           onKeyDown={(e) => handleKeyDown(i, e)}
-          className="w-11 h-14 text-center text-2xl font-bold rounded-xl bg-[#f2f2f7] text-[#1c1c1e] focus:outline-none focus:ring-2 focus:ring-violet-500 caret-transparent tracking-widest"
+          className="w-11 h-14 text-center text-2xl font-bold rounded-xl bg-[#f2f2f7] dark:bg-[#2c2c2e] text-[#1c1c1e] dark:text-[#f2f2f7] focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 caret-transparent tracking-widest"
         />
       ))}
     </div>
@@ -127,17 +127,17 @@ export default function LoginPage() {
 
   if (step === 1) {
     return (
-      <div className="min-h-full flex flex-col items-center justify-center bg-[#f2f2f7] px-4">
+      <div className="min-h-full flex flex-col items-center justify-center bg-[#f2f2f7] dark:bg-[#1c1c1e] px-4">
         <div className="w-full max-w-sm">
           <div className="flex flex-col items-center mb-10">
             <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center mb-4 shadow-lg">
               <BookOpen className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-2xl font-semibold text-[#1c1c1e]">Journaler</h1>
+            <h1 className="text-2xl font-semibold text-[#1c1c1e] dark:text-[#f2f2f7]">Journaler</h1>
             <p className="text-sm text-[#8e8e93] mt-1">Your personal journal</p>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm p-6">
+          <div className="bg-white dark:bg-[#2c2c2e] rounded-2xl shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10 p-6">
             <form onSubmit={handleUsernameSubmit} className="space-y-5">
               <div>
                 <label className="block text-xs font-semibold text-[#8e8e93] uppercase tracking-wider mb-2">
@@ -152,7 +152,7 @@ export default function LoginPage() {
                   autoCorrect="off"
                   autoComplete="username"
                   required
-                  className="w-full px-3 py-2.5 rounded-xl bg-[#f2f2f7] text-[#1c1c1e] text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 placeholder:text-[#c7c7cc]"
+                  className="w-full px-3 py-2.5 rounded-xl bg-[#f2f2f7] dark:bg-[#3a3a3c] text-[#1c1c1e] dark:text-[#f2f2f7] text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 dark:focus:ring-violet-400 placeholder:text-[#c7c7cc] dark:placeholder:text-[#48484a]"
                   placeholder="your username"
                 />
               </div>
@@ -160,7 +160,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={!username.trim()}
-                className="w-full py-3 rounded-xl bg-violet-600 text-white font-semibold text-sm hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full py-3 rounded-xl bg-violet-600 dark:bg-violet-500 text-white font-semibold text-sm hover:bg-violet-700 dark:hover:bg-violet-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 Continue
               </button>
@@ -178,26 +178,26 @@ export default function LoginPage() {
   // ── Step 2: PIN ───────────────────────────────────────────────────────────
 
   return (
-    <div className="min-h-full flex flex-col items-center justify-center bg-[#f2f2f7] px-4">
+    <div className="min-h-full flex flex-col items-center justify-center bg-[#f2f2f7] dark:bg-[#1c1c1e] px-4">
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-10">
           <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-violet-500 to-purple-700 flex items-center justify-center mb-4 shadow-lg">
             <BookOpen className="w-8 h-8 text-white" />
           </div>
-          <h1 className="text-2xl font-semibold text-[#1c1c1e]">Welcome back</h1>
+          <h1 className="text-2xl font-semibold text-[#1c1c1e] dark:text-[#f2f2f7]">Welcome back</h1>
           <div className="flex items-center gap-2 mt-1">
             <p className="text-sm text-[#8e8e93]">{username}</p>
             <button
               type="button"
               onClick={handleNotMe}
-              className="text-sm text-violet-600 hover:underline"
+              className="text-sm text-violet-600 dark:text-violet-400 hover:underline"
             >
               Not me
             </button>
           </div>
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm p-6">
+        <div className="bg-white dark:bg-[#2c2c2e] rounded-2xl shadow-sm dark:shadow-none dark:ring-1 dark:ring-white/10 p-6">
           <form action={loginAction} className="space-y-5">
             <input type="hidden" name="username" value={username} />
             <input type="hidden" name="pin" value={pin.join("")} />
@@ -216,7 +216,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loginPending || pin.join("").length !== 6}
-              className="w-full py-3 rounded-xl bg-violet-600 text-white font-semibold text-sm hover:bg-violet-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              className="w-full py-3 rounded-xl bg-violet-600 dark:bg-violet-500 text-white font-semibold text-sm hover:bg-violet-700 dark:hover:bg-violet-400 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
             >
               {loginPending ? "Signing in…" : "Sign in"}
             </button>
@@ -226,7 +226,7 @@ export default function LoginPage() {
         <button
           type="button"
           onClick={handleNotMe}
-          className="flex items-center gap-1 mx-auto mt-4 text-xs text-[#8e8e93] hover:text-[#1c1c1e] transition-colors"
+          className="flex items-center gap-1 mx-auto mt-4 text-xs text-[#8e8e93] hover:text-[#1c1c1e] dark:hover:text-[#f2f2f7] transition-colors"
         >
           <ArrowLeft className="w-3 h-3" />
           Use a different account
