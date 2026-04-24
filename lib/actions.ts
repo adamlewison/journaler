@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
+import { headers } from "next/headers";
 import { getDb, initDb } from "@/lib/db";
 import {
   createSession,
@@ -11,6 +12,7 @@ import {
   hashPin,
   requireSession,
 } from "@/lib/auth";
+import { loginRatelimit, entryRatelimit } from "@/lib/ratelimit";
 
 // ── Auth ──────────────────────────────────────────────────────────────────────
 
@@ -24,6 +26,10 @@ export async function login(
   if (!username || !pin || pin.length !== 6 || !/^\d{6}$/.test(pin)) {
     return { error: "Username and a 6-digit PIN are required." };
   }
+
+  const ip = (await headers()).get("x-forwarded-for")?.split(",")[0].trim() ?? "unknown";
+  const { success } = await loginRatelimit.limit(ip);
+  if (!success) return { error: "Too many attempts. Please wait before trying again." };
 
   await initDb();
 
@@ -116,6 +122,10 @@ export async function createEntry(
   formData: FormData,
 ): Promise<{ error: string } | null> {
   const session = await requireSession();
+
+  const { success } = await entryRatelimit.limit(String(session.userId));
+  if (!success) return { error: "Too many entries created recently. Slow down." };
+
   const content = formData.get("content") as string;
   const journalId = formData.get("journal_id") as string;
 
@@ -135,6 +145,9 @@ export async function createDraftEntry(
   journalId: number,
 ): Promise<{ error: string } | { id: number }> {
   const session = await requireSession();
+
+  const { success } = await entryRatelimit.limit(String(session.userId));
+  if (!success) return { error: "Too many entries created recently. Slow down." };
 
   if (!content?.trim()) return { error: "Entry cannot be empty." };
 
