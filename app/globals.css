@@ -13,3 +13,29 @@ body {
     -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
 }
+
+/* ── Login page: hi-tech background animations ─────────────────────────── */
+@keyframes aurora-drift-a {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(4%, 6%) scale(1.08); }
+  66%       { transform: translate(-3%, 2%) scale(0.96); }
+}
+@keyframes aurora-drift-b {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(-5%, -4%) scale(1.1); }
+  66%       { transform: translate(3%, -6%) scale(0.94); }
+}
+@keyframes pin-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+  50%       { box-shadow: 0 0 14px 2px rgba(139, 92, 246, 0.35); }
+}
+
+.login-aurora-a {
+  animation: aurora-drift-a 12s ease-in-out infinite;
+}
+.login-aurora-b {
+  animation: aurora-drift-b 16s ease-in-out infinite;
+}
+.pin-cell:focus {
+  animation: pin-glow-pulse 1.8s ease-in-out infinite;
+}

@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# JRNLR
 
-## Getting Started
+A minimal, private journaling app. Write entries, organise them into journals, and keep everything locked behind a 6-digit PIN.
 
-First, run the development server:
+Live at **[jrnlr.online](https://jrnlr.online)**
+
+---
+
+## What it does
+
+- Create an account with just a username and PIN — no email required
+- Write journal entries with a clean, distraction-free editor
+- Organise entries across multiple named journals
+- Auto-locks after 5 minutes of inactivity, requiring your PIN to resume
+- Works as a PWA — installable on iPhone and Android
+
+## Stack
+
+- [Next.js 16](https://nextjs.org) (App Router)
+- [Turso](https://turso.tech) — SQLite database
+- [Upstash Redis](https://upstash.com) — rate limiting (optional)
+- [Tailwind CSS v4](https://tailwindcss.com)
+
+---
+
+## Running locally
+
+### 1. Clone
+
+```bash
+git clone https://github.com/your-username/journaler.git
+cd journaler
+npm install
+```
+
+### 2. Set up a database
+
+Create a free database at [turso.tech](https://turso.tech), then grab your database URL and auth token from the Turso dashboard.
+
+### 3. Configure environment variables
+
+Copy the example file and fill in your values:
+
+```bash
+cp .env.local.example .env.local
+```
+
+```env
+# Turso (required)
+TURSO_DATABASE_URL=libsql://your-db.turso.io
+TURSO_AUTH_TOKEN=your-token-here
+
+# Session signing secret — any long random string
+SESSION_SECRET=change-me-to-something-random
+
+# Upstash Redis (optional — rate limiting is disabled if omitted)
+UPSTASH_REDIS_REST_URL=
+UPSTASH_REDIS_REST_TOKEN=
+```
+
+### 4. Run
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000). The database schema is created automatically on first login.

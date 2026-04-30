@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Deep purple rounded background -->
+  <rect width="32" height="32" rx="7" fill="#141126"/>
+
+  <!-- Journal pages (slight drop shadow via offset rect) -->
+  <rect x="9" y="7" width="16" height="20" rx="2" fill="#ddd5f0"/>
+
+  <!-- Journal cover / pages body -->
+  <rect x="8" y="6" width="16" height="20" rx="2" fill="#f2eeff"/>
+
+  <!-- Spine binding -->
+  <rect x="8" y="6" width="3.5" height="20" rx="1.5" fill="#7c5cbf"/>
+
+  <!-- Subtle spine highlight -->
+  <rect x="8.6" y="6" width="1" height="20" rx="0.5" fill="#a07cd8" opacity="0.5"/>
+
+  <!-- Writing lines -->
+  <line x1="14" y1="11.5" x2="22" y2="11.5" stroke="#c0aee0" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="14" y1="15"   x2="22" y2="15"   stroke="#c0aee0" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="14" y1="18.5" x2="22" y2="18.5" stroke="#c0aee0" stroke-width="1.4" stroke-linecap="round"/>
+  <line x1="14" y1="22"   x2="19" y2="22"   stroke="#c0aee0" stroke-width="1.4" stroke-linecap="round"/>
+
+  <!-- Golden bookmark ribbon -->
+  <path d="M22 6 L22 14 L20.1 12.4 L18.2 14 L18.2 6 Z" fill="#f5c842"/>
+
+  <!-- Tiny sparkle top-right -->
+  <circle cx="26.5" cy="5.5" r="1.1" fill="#f5c842" opacity="0.85"/>
+  <line x1="26.5" y1="3.5" x2="26.5" y2="7.5" stroke="#f5c842" stroke-width="0.7" stroke-linecap="round" opacity="0.6"/>
+  <line x1="24.5" y1="5.5" x2="28.5" y2="5.5" stroke="#f5c842" stroke-width="0.7" stroke-linecap="round" opacity="0.6"/>
+</svg>

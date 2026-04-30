@@ -52,7 +52,12 @@ export default function ProfileForms({ username }: { username: string }) {
             required
             className={inputClass}
           />
-          <StatusMessage state={usernameState} />
+          {"error" in (usernameState ?? {}) && (
+            <p className="flex items-center gap-1.5 text-xs text-red-500 mt-2">
+              <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+              {(usernameState as { error: string }).error}
+            </p>
+          )}
           <button type="submit" disabled={usernamePending} className={btnClass}>
             {usernamePending ? "Saving…" : "Update Username"}
           </button>

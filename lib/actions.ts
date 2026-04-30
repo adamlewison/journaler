@@ -264,7 +264,7 @@ export async function updateUsername(
   });
 
   await createSession({ userId: session.userId, username: newUsername });
-  return { success: true };
+  redirect("/journal/profile?saved=username");
 }
 
 export async function updatePin(
